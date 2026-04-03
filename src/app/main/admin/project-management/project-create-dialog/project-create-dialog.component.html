@@ -1,0 +1,74 @@
+<p-dialog [(visible)]="visible" (onHide)="closeDialog()" [style]="{ width: '800px' }" header="Create Project"
+  [modal]="true">
+
+  <form [formGroup]="createForm" (ngSubmit)="submit()">
+
+    <!-- Project Name -->
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" id="projectName" formControlName="name" placeholder="Project Name"
+        [ngClass]="{
+          'is-invalid':
+            createForm.get('name')?.invalid &&
+            (createForm.get('name')?.dirty || createForm.get('name')?.touched)
+        }" />
+      <label for="projectName">Project Name</label>
+
+      <div class="invalid-feedback" *ngIf="
+          createForm.get('name')?.invalid &&
+          (createForm.get('name')?.dirty || createForm.get('name')?.touched)
+        ">
+        <div *ngIf="createForm.get('name')?.errors?.['required']">
+          Project name is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- PM -->
+    <div class="mb-3">
+      <label class="form-label">Project Manager (Optional)</label>
+      <select class="form-select" formControlName="managerId">
+        <option [ngValue]="null">No Manager Assigned</option>
+        <option *ngFor="let emp of managers" [ngValue]="emp.id">
+          {{ emp.fullName }}
+        </option>
+      </select>
+
+      <!-- Removed the validation error div since it is no longer required -->
+    </div>
+
+    <!-- Project Description -->
+    <div class="form-floating mb-4">
+      <textarea class="form-control" id="projectDescription" formControlName="description"
+        placeholder="Project Description" style="height: 200px; min-height: 100px; resize: vertical;" [ngClass]="{
+          'is-invalid':
+            createForm.get('description')?.invalid &&
+            (createForm.get('description')?.dirty ||
+              createForm.get('description')?.touched)
+        }"></textarea>
+      <label for="projectDescription">Project Description</label>
+
+      <div class="invalid-feedback" *ngIf="
+          createForm.get('description')?.invalid &&
+          (createForm.get('description')?.dirty ||
+            createForm.get('description')?.touched)
+        ">
+        <div *ngIf="createForm.get('description')?.errors?.['required']">
+          Project description is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Buttons -->
+    <div class="d-flex justify-content-end gap-2">
+      <button type="button" class="btn btn-light" (click)="closeDialog()">
+        Cancel
+      </button>
+
+      <button type="submit" class="btn btn-secondary" [disabled]="createForm.invalid || isSubmitting()">
+        <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2" role="status"></span>
+        {{ isSubmitting() ? 'Creating...' : 'Create Project' }}
+      </button>
+    </div>
+
+  </form>
+</p-dialog>

@@ -1,0 +1,66 @@
+<p-dialog
+  [(visible)]="visible"
+  (onHide)="closeDialog()"
+ [style]="{ width: '800px' }"
+  header="Update Team"
+  [modal]="true"
+>
+
+  <form [formGroup]="updateForm" (ngSubmit)="submitUpdate()">
+
+    <!-- Team Name -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="teamName"
+        formControlName="name"
+        placeholder="Team Name"
+        [ngClass]="{
+          'is-invalid':
+            updateForm.get('name')?.invalid &&
+            (updateForm.get('name')?.dirty || updateForm.get('name')?.touched)
+        }"
+      />
+      <label for="teamName">Team Name</label>
+
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          updateForm.get('name')?.invalid &&
+          (updateForm.get('name')?.dirty || updateForm.get('name')?.touched)
+        "
+      >
+        <div *ngIf="updateForm.get('name')?.errors?.['required']">
+          Team name is required.
+        </div>
+      </div>
+    </div>
+
+   
+    <!-- Footer Buttons -->
+    <div class="d-flex justify-content-end gap-2">
+      <button
+        type="button"
+        class="btn btn-light"
+        (click)="closeDialog()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-secondary"
+        [disabled]="updateForm.invalid || isSubmitting()"
+      >
+        <span
+          *ngIf="isSubmitting()"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+        ></span>
+        {{ isSubmitting() ? 'Updating...' : 'Update Team' }}
+      </button>
+    </div>
+
+  </form>
+</p-dialog>

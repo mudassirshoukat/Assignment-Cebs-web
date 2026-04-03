@@ -1,0 +1,39 @@
+/* ================================================= */
+/* nav-item.component.scss or similar sidebar style */
+/* ================================================= */
+
+// Define variables for consistency (use your theme's variables if available)
+$primary-color: #7267EF; // Example: Your theme's main color
+$active-bg: lighten($primary-color, 45%); // Light background for active state
+
+.nav-item {
+    // Styles for the base list item
+    list-style: none;
+    padding: 0;
+
+    // --- Active State Styling ---
+    &.active {
+        // Target the active list item
+        .nav-link {
+            // Apply main styles to the link itself
+            color: $primary-color;
+            background-color: $active-bg; 
+            font-weight: 600; // Make text slightly bolder
+
+            // Optional: Add a distinct border for a strong visual indicator
+            border-left: 4px solid $primary-color;
+            padding-left: calc(16px - 4px); /* Adjust padding if you add a border */
+
+            // Ensure the icon also gets the primary color
+            .coded-micon i {
+                color: $primary-color;
+            }
+        }
+    }
+
+    // --- Ensure Hover States are distinct ---
+    .nav-link:hover {
+        background-color: $active-bg; // Maintain background color on hover
+        // Other hover styles
+    }
+}

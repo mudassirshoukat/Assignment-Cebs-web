@@ -1,0 +1,27 @@
+<header class="pc-header coded-header">
+  <app-nav-logo [navCollapsed]="navCollapsed" (NavCollapse)="navCollapse()" />
+
+  <div class="header-wrapper">
+
+    <!-- Tenant Name Display (Updated & Styled) -->
+    <div class="d-none d-md-flex align-items-center me-3">
+      <div 
+        class="tenant-container"
+        *ngIf="tenant$ | async as tenant"
+        [title]="tenant.name + (tenant.country ? ' — ' + tenant.country : '')"
+      >
+        <div class="tenant-name">
+          {{ tenant.name }}
+        </div>
+
+        <div class="tenant-country" *ngIf="tenant.country">
+          {{ tenant.country }}
+        </div>
+      </div>
+    </div>
+
+    <app-nav-notification />
+    <app-nav-profile />
+
+  </div>
+</header>

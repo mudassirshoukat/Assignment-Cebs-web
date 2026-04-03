@@ -1,0 +1,34 @@
+.dialog-error {
+  color: #d32f2f;
+  p {
+    font-weight: 500;
+  }
+}
+
+.dialog-success {
+  color: #388e3c;
+  p {
+    font-weight: 500;
+  }
+}
+
+.dialog-warning {
+  color: #f57c00;
+  p {
+    font-weight: 500;
+  }
+}
+
+.dialog-session-expire {
+  p {
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+}
+
+.dialog-confirmation {
+  p {
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+}

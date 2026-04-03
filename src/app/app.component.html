@@ -1,0 +1,11 @@
+<router-outlet></router-outlet>
+<p-toast position="top-right"></p-toast> 
+<!-- Global Dialog -->
+<app-global-dialog
+  *ngIf="dialogService.dialog$ | async as dialog"
+  [visible]="dialog.visible"
+  [title]="dialog.title!"
+  [message]="dialog.message!"
+  [errors]="dialog.errors!"
+  [type]="dialog.type">
+</app-global-dialog>

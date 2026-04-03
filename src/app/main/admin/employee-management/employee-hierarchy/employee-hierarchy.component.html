@@ -1,0 +1,118 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Organization Hierarchy</h2>
+      <p class="text-muted mb-0">View the organizational structure from top to bottom</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button pButton icon="pi pi-refresh" label="Refresh" 
+              class="p-button-outlined p-button-sm" (click)="loadInitialHierarchy()"></button>
+      <button pButton icon="pi pi-sitemap" label="Collapse All" 
+              class="p-button-outlined p-button-sm" (click)="expandedNodes.clear()"></button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <p-progressSpinner styleClass="w-3rem h-3rem"></p-progressSpinner>
+    <p class="text-muted mt-3">Loading organization hierarchy...</p>
+  </div>
+
+  <!-- Hierarchy View -->
+  <div *ngIf="!isLoading" class="row">
+    <!-- Tree Column -->
+    <div class="col-lg-8">
+      <p-card styleClass="shadow-sm hierarchy-card">
+        <ng-template pTemplate="header">
+          <div class="p-3 border-bottom bg-light">
+            <h5 class="fw-bold mb-0">Organization Chart</h5>
+          </div>
+        </ng-template>
+        
+        <p-scrollPanel [style]="{ height: '600px' }">
+          <div class="hierarchy-tree">
+            <div *ngFor="let node of orgTree" class="tree-root">
+              <!-- Recursive tree node component -->
+              <app-hierarchy-node 
+                [node]="node" 
+                [expandedNodes]="expandedNodes"
+                [selectedNode]="selectedNode"
+                (onToggle)="toggleNode($event.node, $event.event)"
+                (onSelect)="selectNode($event.node, $event.event)">
+              </app-hierarchy-node>
+            </div>
+          </div>
+        </p-scrollPanel>
+      </p-card>
+    </div>
+
+    <!-- Details Column -->
+    <div class="col-lg-4">
+      <p-card styleClass="shadow-sm sticky-detail-panel">
+        <ng-template pTemplate="header">
+          <div class="p-3 border-bottom bg-light">
+            <h5 class="fw-bold mb-0">Employee Details</h5>
+          </div>
+        </ng-template>
+        
+        <div *ngIf="selectedNode?.data; else noSelection" class="employee-details">
+          <div class="text-center mb-4">
+            <p-avatar 
+              [label]="selectedNode?.data?.firstName?.[0]" 
+              shape="circle" 
+              size="xlarge"
+              [style]="{'background-color': '#3b82f6', 'color': 'white'}">
+            </p-avatar>
+            <h5 class="fw-bold mt-3 mb-1">{{ selectedNode?.data?.fullName }}</h5>
+            <p class="text-muted mb-2">{{ selectedNode?.data?.email }}</p>
+            <p-tag 
+              [value]="selectedNode?.data?.designationName" 
+              severity="info">
+            </p-tag>
+          </div>
+
+          <div class="info-section">
+            <div class="info-row">
+              <span class="info-label">Employee ID</span>
+              <span class="info-value">{{ selectedNode?.data?.publicId }}</span>
+            </div>
+            
+            <div class="info-row" *ngIf="selectedNode?.data?.jobTitleName">
+              <span class="info-label">Job Title</span>
+              <span class="info-value">{{ selectedNode?.data?.jobTitleName }}</span>
+            </div>
+            
+            <div class="info-row" *ngIf="selectedNode?.data?.departmentName">
+              <span class="info-label">Department</span>
+              <span class="info-value">{{ selectedNode?.data?.departmentName }}</span>
+            </div>
+            
+            <div class="info-row">
+              <span class="info-label">Designation Rank</span>
+              <span class="info-value">
+                <span class="badge bg-secondary">{{ selectedNode?.data?.designationRank }}</span>
+              </span>
+            </div>
+            
+            <div class="info-row">
+              <span class="info-label">Status</span>
+              <span class="info-value">
+                <span class="badge" [ngClass]="selectedNode?.data?.isActive ? 'bg-success' : 'bg-secondary'">
+                  {{ selectedNode?.data?.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noSelection>
+          <div class="text-center py-5">
+            <i class="pi pi-sitemap" style="font-size: 3rem; color: #dee2e6;"></i>
+            <p class="text-muted mt-3">Select an employee to view details</p>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>

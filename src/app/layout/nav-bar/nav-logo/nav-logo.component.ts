@@ -1,0 +1,40 @@
+// Angular import
+import { Component, Input, output, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { SharedModule } from '../../../shared/shared.module';
+import { CommonModule } from '@angular/common';
+
+// project import
+
+@Component({
+    selector: 'app-nav-logo',
+    imports: [SharedModule, CommonModule],
+    templateUrl: './nav-logo.component.html',
+    styleUrl: './nav-logo.component.scss'
+})
+export class NavLogoComponent {
+  router = inject(Router);
+
+  // public props
+  @Input() navCollapsed!: boolean;
+  NavCollapse = output();
+  windowWidth: number;
+  themeMode!: boolean;
+
+  // Constructor
+  constructor() {
+    this.windowWidth = window.innerWidth;
+  }
+
+  // public method
+  navCollapse() {
+    if (this.windowWidth >= 1025) {
+      this.navCollapsed = !this.navCollapsed;
+      this.NavCollapse.emit();
+    }
+  }
+
+  returnToHome() {
+    this.router.navigate(['/']);
+  }
+}

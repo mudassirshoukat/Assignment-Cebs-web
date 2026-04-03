@@ -1,0 +1,216 @@
+<!-- Loading -->
+<p-progressBar *ngIf="isLoading()" mode="indeterminate" styleClass="mb-3"></p-progressBar>
+
+<!-- Content -->
+<div *ngIf="!isLoading() && jobTitle" class="container-fluid py-4">
+  
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+      <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/admin/jobtitles">Job Titles</a></li>
+          <li class="breadcrumb-item active">{{ jobTitle.name }}</li>
+        </ol>
+      </nav>
+      
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <h2 class="fw-bold mb-0">{{ jobTitle.name }}</h2>
+        <div class="d-flex gap-2">
+          <p-tag [value]="jobTitle.isActive ? 'Active' : 'Inactive'" 
+                 [severity]="jobTitle.isActive ? 'success' : 'secondary'"></p-tag>
+          <p-tag value="Job Title" severity="info"></p-tag>
+        </div>
+      </div>
+      
+      <p class="text-muted mb-2">{{ jobTitle.description || 'No description provided.' }}</p>
+      <p class="text-muted small">ID: {{ jobTitle.publicId }} | Created: {{ jobTitle.createdOn |appDate }}</p>
+    </div>
+    
+    <div class="d-flex gap-2">
+   <button
+  pButton
+  icon="pi pi-pencil"
+  label="Edit"
+  class="p-button-sm"
+  (click)="openEditDialog()">
+</button>
+
+      <button pButton icon="pi pi-arrow-left" label="Back to List" 
+              class="p-button-sm" routerLink="/admin/jobtitles"></button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row g-3 mb-4">
+
+    <div class="col-xl-4 col-md-6">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-primary">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Total Employees</span>
+            <h2 class="fw-bold mb-0">{{ jobTitle.employeeCount || 0 }}</h2>
+          </div>
+          <i class="pi pi-users text-primary" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-2">
+          <small class="text-muted">Employees with this job title</small>
+        </div>
+      </p-card>
+    </div>
+    
+    <div class="col-xl-4 col-md-6">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-success">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Department</span>
+            <h4 class="fw-bold mt-1 mb-0">{{ jobTitle.department!.name || 'N/A' }}</h4>
+          </div>
+          <i class="pi pi-building text-success" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-2">
+          <small class="text-muted">{{ jobTitle.department!.publicId || '' }}</small>
+        </div>
+        <div class="mb-1"></div>
+      </p-card>
+    </div>
+    
+    <div class="col-xl-4 col-md-12">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-info">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Common Designations</span>
+            <h2 class="fw-bold mb-0">{{ jobTitle.commonDesignations!.length || 0 }}</h2>
+          </div>
+          <i class="pi pi-sitemap text-info" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-2">
+          <small class="text-muted">Frequently associated designations</small>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="row g-4">
+    <!-- Left Column - Department Info -->
+    <div class="col-lg-8">
+      <!-- Department Details -->
+      <p-card header="Department Information" styleClass="shadow-sm mb-4">
+        <div class="d-flex align-items-start">
+          <div class="flex-shrink-0">
+            <p-avatar icon="pi pi-building" shape="circle" size="xlarge" 
+                     styleClass="me-3" [style]="{'background-color': '#3b82f6'}"></p-avatar>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="fw-bold mb-1">{{ jobTitle.department!.name || 'No department assigned' }}</h5>
+            <p class="text-muted mb-2">{{ jobTitle.department!.description || 'No department description available' }}</p>
+            <div class="d-flex gap-3">
+              <div>
+                <div class="small text-muted">Department ID</div>
+                <div class="fw-bold">{{ jobTitle.department!.publicId || 'N/A' }}</div>
+              </div>
+              <div>
+                <div class="small text-muted">Status</div>
+                <span class="badge bg-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Common Designations -->
+      <p-card header="Common Designations" styleClass="shadow-sm">
+        <div *ngIf="jobTitle.commonDesignations!.length; else noDesignations">
+          <p class="text-muted mb-3">Designations commonly associated with this job title:</p>
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-4" *ngFor="let desig of jobTitle.commonDesignations">
+              <div class="card border h-100">
+                <div class="card-body text-center">
+                  <i class="pi pi-star-fill text-warning" style="font-size: 1.5rem"></i>
+                  <h6 class="fw-bold mt-2 mb-1">{{ desig.designationName }}</h6>
+                  <p class="text-muted small mb-0">Common designation</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #noDesignations>
+          <div class="text-center py-4">
+            <i class="pi pi-sitemap" style="font-size: 3rem; color: #dee2e6;"></i>
+            <p class="text-muted mt-3">No common designations assigned to this job title</p>
+            <button pButton icon="pi pi-plus" label="Add Designation" 
+                    class="p-button-outlined p-button-sm"></button>
+          </div>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <!-- Right Column - Quick Info & Actions -->
+    <div class="col-lg-4">
+      <!-- Status Management -->
+      <p-card header="Status Management" styleClass="shadow-sm mb-4">
+        <div class="mb-3">
+          <label class="text-muted small d-block mb-2">Current Status</label>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge rounded-pill" 
+                  [ngClass]="{'bg-success': jobTitle.isActive, 'bg-secondary': !jobTitle.isActive}">
+              {{ jobTitle.isActive ? 'Active' : 'Inactive' }}
+            </span>
+            <button pButton [icon]="jobTitle.isActive ? 'pi pi-times' : 'pi pi-check'" 
+                    [label]="jobTitle.isActive ? 'Deactivate' : 'Activate'" 
+                    [severity]="jobTitle.isActive ? 'secondary' : 'success'"
+                    class="p-button-outlined p-button-sm"></button>
+          </div>
+        </div>
+        
+        <div class="small text-muted">
+          <i class="pi pi-info-circle me-1"></i>
+          <span *ngIf="jobTitle.isActive">
+            Active job titles can be assigned to new employees.
+          </span>
+          <span *ngIf="!jobTitle.isActive">
+            Inactive job titles cannot be assigned to new employees.
+          </span>
+        </div>
+      </p-card>
+
+   
+
+      <!-- Related Information -->
+      <p-card styleClass="mt-4 shadow-sm">
+        <h6 class="fw-bold mb-3">Related Information</h6>
+        <div class="list-group list-group-flush">
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <i class="pi pi-calendar text-primary me-2"></i>
+              <span>Created On</span>
+            </div>
+            <span class="text-muted">{{ jobTitle.createdOn | appDate }}</span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <i class="pi pi-history text-info me-2"></i>
+              <span>Last Updated</span>
+            </div>
+            <span class="text-muted">{{ jobTitle.lastModifiedOn |appTimeAgo }}</span>
+          </div>
+          <div class="list-group-item">
+            <div class="d-flex align-items-center mb-1">
+              <i class="pi pi-id-card text-success me-2"></i>
+              <span>Job Title ID</span>
+            </div>
+            <code class="bg-light px-2 py-1 rounded d-block">{{ jobTitle.publicId }}</code>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+     <!-- Update Dialog -->
+    <app-jobtitle-update-dialog
+      [visible]="isUpdateDialogOpen()"
+      [jobtitle]="selectedJobTitleToEdit()"
+      (jobtitleUpdated)="onJobTitleUpdated()"
+      (visibleChange)="onUpdateDialogHide()">
+    </app-jobtitle-update-dialog>
+</div>

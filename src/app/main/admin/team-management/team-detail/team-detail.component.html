@@ -1,0 +1,532 @@
+<div class="container-fluid py-4" *ngIf="!isLoading">
+  
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-start mb-4">
+    <div>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-1">
+          <li class="breadcrumb-item"><a href="#">Teams</a></li>
+          <li class="breadcrumb-item active">Development</li>
+        </ol>
+      </nav>
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <h2 class="fw-bold mb-0">Frontend Development Team</h2>
+        <div class="d-flex gap-2">
+          <p-tag severity="success" value="Active"></p-tag>
+          <p-tag severity="info" value="Engineering"></p-tag>
+          <p-tag severity="warning" value="Main Team"></p-tag>
+        </div>
+      </div>
+      <p class="text-muted mb-1">Team ID: #TM-001 | Created: Jan 15, 2024 | Last activity: Today</p>
+      <p class="text-muted">Responsible for frontend development across all client-facing applications. Specializes in Angular and React projects.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <button pButton icon="pi pi-pencil" label="Edit Team" class="p-button-outlined p-button-sm"></button>
+      <button pButton icon="pi pi-plus" label="Add Member" class="p-button-sm"></button>
+      <button pButton icon="pi pi-ellipsis-v" class="p-button-text p-button-secondary"></button>
+    </div>
+  </div>
+
+  <!-- Team Stats Overview -->
+  <div class="row g-3 mb-4">
+    <div class="col-xl-3 col-md-6">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-primary">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Team Members</span>
+            <h2 class="fw-bold mb-0">8</h2>
+          </div>
+          <i class="pi pi-users text-primary" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-3">
+          <span class="text-success small fw-bold">+2 this quarter</span>
+        </div>
+      </p-card>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-success">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Active Projects</span>
+            <h2 class="fw-bold mb-0">4</h2>
+          </div>
+          <i class="pi pi-briefcase text-success" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-3">
+          <span class="text-muted small">2 as main team</span>
+        </div>
+      </p-card>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-info">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Total Tasks</span>
+            <h2 class="fw-bold mb-0">156</h2>
+          </div>
+          <i class="pi pi-check-circle text-info" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-3">
+          <span class="text-success small fw-bold">87% completion rate</span>
+        </div>
+      </p-card>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+      <p-card styleClass="shadow-sm border-top border-top-3 border-top-warning">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <span class="text-muted d-block small">Capacity</span>
+            <h2 class="fw-bold mb-0">78%</h2>
+          </div>
+          <i class="pi pi-chart-line text-warning" style="font-size: 2rem"></i>
+        </div>
+        <div class="mt-3">
+          <p-progressBar [value]="78" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Tab View -->
+  <p-tabView styleClass="tabview-custom">
+    
+    <!-- Overview Tab -->
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <i class="pi pi-info-circle me-2"></i>
+        <span>Overview</span>
+      </ng-template>
+      
+      <div class="row g-4">
+        <!-- Team Details -->
+        <div class="col-lg-8">
+          <div class="row g-4">
+            <!-- Team Description -->
+            <div class="col-12">
+              <p-card header="Team Details" styleClass="shadow-sm">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="text-muted small">Team Lead</label>
+                      <div class="d-flex align-items-center mt-1">
+                        <p-avatar label="JS" shape="circle" size="normal" styleClass="me-2"></p-avatar>
+                        <div>
+                          <div class="fw-bold">John Smith</div>
+                          <small class="text-muted">Senior Frontend Developer</small>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="text-muted small">Department</label>
+                      <div class="fw-bold">Engineering</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="text-muted small">Skills</label>
+                      <div class="d-flex flex-wrap gap-1 mt-1">
+                        <p-tag value="Angular" severity="info"></p-tag>
+                        <p-tag value="React" severity="info"></p-tag>
+                        <p-tag value="TypeScript" severity="info"></p-tag>
+                        <p-tag value="UI/UX" severity="info"></p-tag>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label class="text-muted small">Work Hours</label>
+                      <div class="fw-bold">9:00 AM - 6:00 PM EST</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="text-muted small">Meeting Schedule</label>
+                      <div>
+                        <div class="small">Daily Standup: 10:00 AM</div>
+                        <div class="small">Weekly Planning: Monday 11:00 AM</div>
+                      </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                      <label class="text-muted small">Communication</label>
+                      <div>
+                        <div class="small">Slack: #frontend-dev</div>
+                        <div class="small">Email: frontend-teamcompany.com</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-card>
+            </div>
+
+            <!-- Team Projects Summary -->
+            <div class="col-12">
+              <p-card header="Team Projects" styleClass="shadow-sm">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Project</th>
+                        <th>Role</th>
+                        <th>Team Tasks</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="fw-bold">E-Commerce Platform</div>
+                          <small class="text-muted">Client: Retail Corp</small>
+                        </td>
+                        <td><span class="badge bg-success">Main Team</span></td>
+                        <td>
+                          <div class="small">Total: 42</div>
+                          <div class="small text-success">Completed: 35</div>
+                        </td>
+                        <td><span class="badge bg-info">In Progress</span></td>
+                        <td>
+                          <div class="d-flex align-items-center gap-2">
+                            <p-progressBar [value]="83" [showValue]="false" [style]="{'height': '6px', 'flex-grow': 1}"></p-progressBar>
+                            <small class="fw-bold">83%</small>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="fw-bold">Admin Dashboard</div>
+                          <small class="text-muted">Internal Tool</small>
+                        </td>
+                        <td><span class="badge bg-success">Main Team</span></td>
+                        <td>
+                          <div class="small">Total: 28</div>
+                          <div class="small text-success">Completed: 20</div>
+                        </td>
+                        <td><span class="badge bg-primary">Active</span></td>
+                        <td>
+                          <div class="d-flex align-items-center gap-2">
+                            <p-progressBar [value]="71" [showValue]="false" [style]="{'height': '6px', 'flex-grow': 1}"></p-progressBar>
+                            <small class="fw-bold">71%</small>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="fw-bold">Mobile App Redesign</div>
+                          <small class="text-muted">Client: TechStart</small>
+                        </td>
+                        <td><span class="badge bg-secondary">Supporting</span></td>
+                        <td>
+                          <div class="small">Total: 15</div>
+                          <div class="small text-success">Completed: 8</div>
+                        </td>
+                        <td><span class="badge bg-warning">Planning</span></td>
+                        <td>
+                          <div class="d-flex align-items-center gap-2">
+                            <p-progressBar [value]="53" [showValue]="false" [style]="{'height': '6px', 'flex-grow': 1}"></p-progressBar>
+                            <small class="fw-bold">53%</small>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </p-card>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Health & Activity -->
+        <div class="col-lg-4">
+          <!-- Team Health Score -->
+          <p-card header="Team Health" styleClass="mb-4 shadow-sm">
+            <div class="text-center mb-4">
+              <p-knob value="82" [size]="120" readonly="true" valueColor="var(--green-500)" 
+                     rangeColor="var(--surface-200)" [strokeWidth]="10"></p-knob>
+              <div class="mt-3">
+                <h5 class="fw-bold mb-1">Excellent</h5>
+                <p class="text-muted small">Team health score</p>
+              </div>
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="text-center">
+                  <div class="text-success fw-bold">94%</div>
+                  <div class="small text-muted">Satisfaction</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="text-center">
+                  <div class="text-info fw-bold">88%</div>
+                  <div class="small text-muted">Collaboration</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="text-center">
+                  <div class="text-warning fw-bold">76%</div>
+                  <div class="small text-muted">Workload Balance</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="text-center">
+                  <div class="text-primary fw-bold">91%</div>
+                  <div class="small text-muted">Delivery Rate</div>
+                </div>
+              </div>
+            </div>
+          </p-card>
+
+          <!-- Recent Team Activity -->
+          <p-card header="Recent Activity" styleClass="shadow-sm">
+            <div class="timeline">
+              <div class="timeline-item mb-3">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <i class="pi pi-user-plus text-success"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="mb-0 small">Sarah Chen joined the team</p>
+                    <small class="text-muted">2 hours ago</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="timeline-item mb-3">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <i class="pi pi-check-circle text-primary"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="mb-0 small">Completed 12 tasks this week</p>
+                    <small class="text-muted">Yesterday</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="timeline-item mb-3">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <i class="pi pi-briefcase text-info"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="mb-0 small">Assigned to Mobile App project</p>
+                    <small class="text-muted">2 days ago</small>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="timeline-item">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <i class="pi pi-chart-line text-warning"></i>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <p class="mb-0 small">Velocity increased by 15%</p>
+                    <small class="text-muted">Last week</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </p-tabPanel>
+
+    <!-- Team Members Tab -->
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <i class="pi pi-users me-2"></i>
+        <span>Team Members</span>
+        <p-badge value="8" severity="info" styleClass="ms-2"></p-badge>
+      </ng-template>
+      
+      <div class="mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6">
+            <span class="p-input-icon-left w-100">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" placeholder="Search team members..." style="width: 100%" />
+            </span>
+          </div>
+          <div class="col-md-6 text-end">
+            <button pButton icon="pi pi-user-plus" label="Add Member" class="p-button-sm me-2"></button>
+            <button pButton icon="pi pi-download" label="Export Roster" class="p-button-outlined p-button-sm"></button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <!-- Team Lead Card -->
+        <div class="col-12">
+          <p-card styleClass="border border-2 border-success shadow-sm">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0">
+        <p-avatar 
+    label="JS" 
+    shape="circle" 
+    size="xlarge" 
+    styleClass="me-3" 
+    [style]="{ 'background-color': '#10b981', 'color': 'white' }"
+    role="img"
+    aria-label="User avatar for JS">
+</p-avatar>
+
+              </div>
+              <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h5 class="fw-bold mb-1">John Smith <span class="badge bg-success ms-2">Team Lead</span></h5>
+                    <p class="text-muted mb-2">Senior Frontend Developer | 5 years in team</p>
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                      <p-tag value="Angular Expert" severity="success"></p-tag>
+                      <p-tag value="Architecture" severity="info"></p-tag>
+                      <p-tag value="Mentor" severity="warning"></p-tag>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <div class="fw-bold">24 Tasks</div>
+                    <div class="small text-success">92% completion rate</div>
+                  </div>
+                </div>
+                <div class="row g-3 mt-3">
+                  <div class="col-md-3">
+                    <div class="small text-muted">Capacity</div>
+                    <div class="fw-bold">85%</div>
+                    <p-progressBar [value]="85" [showValue]="false" [style]="{'height': '4px'}"></p-progressBar>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="small text-muted">This Week</div>
+                    <div class="fw-bold text-success">8 completed</div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="small text-muted">Avg. Velocity</div>
+                    <div class="fw-bold">18 pts/week</div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="small text-muted">Status</div>
+                    <div class="fw-bold text-success">● Active</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+
+        <!-- Regular Team Members -->
+        <div class="col-md-6 col-lg-4" *ngFor="let member of teamMembers">
+          <p-card styleClass="h-100 shadow-sm">
+            <div class="text-center mb-3">
+              <p-avatar [label]="member.initials" shape="circle" size="large" 
+                       [style]="{'background-color': member.color, 'color': 'white'}" class="mb-2"></p-avatar>
+              <h6 class="fw-bold mb-1">{{ member.name }}</h6>
+              <p class="text-muted small mb-2">{{ member.role }}</p>
+              <p-tag [value]="member.specialty" [severity]="member.severity" styleClass="mb-3"></p-tag>
+            </div>
+            
+            <div class="border-top pt-3">
+              <div class="row g-2 text-center">
+                <div class="col-6">
+                  <div class="small text-muted">Tasks</div>
+                  <div class="fw-bold">{{ member.taskCount }}</div>
+                </div>
+                <div class="col-6">
+                  <div class="small text-muted">Completion</div>
+                  <div class="fw-bold" [ngClass]="{'text-success': member.completionRate > 80, 'text-warning': member.completionRate <= 80}">
+                    {{ member.completionRate }}%
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-3">
+                <div class="small text-muted mb-1">Workload</div>
+                <p-progressBar [value]="member.workload" [showValue]="false" [style]="{'height': '6px'}"></p-progressBar>
+                <div class="small text-end text-muted">{{ member.workload }}% utilized</div>
+              </div>
+              
+              <div class="mt-3 d-flex justify-content-between">
+                <button pButton icon="pi pi-envelope" class="p-button-text p-button-sm"></button>
+                <button pButton icon="pi pi-chart-bar" class="p-button-text p-button-sm"></button>
+                <button pButton icon="pi pi-user-edit" class="p-button-text p-button-sm"></button>
+                <button pButton icon="pi pi-ellipsis-v" class="p-button-text p-button-sm"></button>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </p-tabPanel>
+
+    <!-- Team Projects Tab -->
+    <p-tabPanel>
+      <ng-template pTemplate="header">
+        <i class="pi pi-briefcase me-2"></i>
+        <span>Team Projects</span>
+        <p-badge value="4" severity="info" styleClass="ms-2"></p-badge>
+      </ng-template>
+      
+      <div class="row g-4">
+        <div class="col-md-6" *ngFor="let project of teamProjects">
+          <p-card [header]="project.name" styleClass="h-100 shadow-sm">
+            <ng-template pTemplate="subtitle">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge" [ngClass]="{'bg-success': project.isMainTeam, 'bg-secondary': !project.isMainTeam}">
+                  {{ project.isMainTeam ? 'Main Team' : 'Supporting' }}
+                </span>
+                <span class="badge" [ngClass]="{
+                  'bg-primary': project.status === 'Active',
+                  'bg-info': project.status === 'In Progress',
+                  'bg-warning': project.status === 'Planning'
+                }">
+                  {{ project.status }}
+                </span>
+              </div>
+            </ng-template>
+            
+            <p class="text-muted small mb-3">{{ project.description }}</p>
+            
+            <div class="mb-3">
+              <div class="small text-muted">Timeline</div>
+              <div class="fw-bold">{{ project.startDate }} - {{ project.endDate }}</div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="small text-muted">Team Tasks Overview</div>
+              <div class="row g-2 mt-1">
+                <div class="col-4 text-center">
+                  <div class="fw-bold">{{ project.tasks.total }}</div>
+                  <div class="small text-muted">Total</div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="fw-bold text-success">{{ project.tasks.completed }}</div>
+                  <div class="small text-muted">Done</div>
+                </div>
+                <div class="col-4 text-center">
+                  <div class="fw-bold text-warning">{{ project.tasks.inProgress }}</div>
+                  <div class="small text-muted">Active</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <div class="small text-muted mb-1">Progress</div>
+              <div class="d-flex align-items-center gap-2">
+                <p-progressBar [value]="project.progress" [showValue]="false" [style]="{'height': '8px', 'flex-grow': 1}"></p-progressBar>
+                <span class="fw-bold">{{ project.progress }}%</span>
+              </div>
+            </div>
+            
+            <ng-template pTemplate="footer">
+              <div class="d-flex justify-content-between">
+                <button pButton icon="pi pi-eye" label="View Details" class="p-button-text p-button-sm"></button>
+                <button pButton icon="pi pi-chart-bar" label="Analytics" class="p-button-outlined p-button-sm"></button>
+              </div>
+            </ng-template>
+          </p-card>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</div>

@@ -1,0 +1,96 @@
+<div class="auth-main">
+    <div class="auth-wrapper v3">
+        <div class="auth-form">
+            <div class="card my-5">
+                <div class="card-body">
+                    <a href="#" class="d-flex justify-content-center">
+                        <img src="assets/images/logo-brand.png" style="width: 300px;" alt="darkMode-logo"
+                            class="logo" /> </a>
+                    <h3 class="text-center my-2">Confirm your registration</h3>
+                    <hr>
+                    <form [formGroup]="inviteForm" (ngSubmit)="onSubmit()">
+                        <input type="hidden" formControlName="token">
+                        <div class="form-floating mb-3">
+                            <input type="firstName" class="form-control" id="floatingInput" formControlName="firstName"
+                                placeholder="First Name"
+                                [ngClass]="{'is-invalid': f['firstName'].invalid && (f['firstName'].dirty || f['firstName'].touched)}" />
+                            <label for="floatingInput">First Name</label>
+                            <div *ngIf="f['firstName'].invalid && (f['firstName'].dirty || f['firstName'].touched)"
+                                class="invalid-feedback">
+                                <div *ngIf="f['firstName'].errors?.['required']">First Name is required.</div>
+                                <div *ngIf="f['firstName'].errors?.['pattern']">Please provide a valid First Name.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="lastName" class="form-control" id="floatingInput" formControlName="lastName"
+                                placeholder="First Name"
+                                [ngClass]="{'is-invalid': f['lastName'].invalid && (f['lastName'].dirty || f['lastName'].touched)}" />
+                            <label for="floatingInput">Last Name</label>
+                            <div *ngIf="f['lastName'].invalid && (f['lastName'].dirty || f['lastName'].touched)"
+                                class="invalid-feedback">
+                                <div *ngIf="f['lastName'].errors?.['required']">Last Name is required.</div>
+                                <div *ngIf="f['lastName'].errors?.['pattern']">Please provide a valid Last Name.</div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="password" placeholder="Password"
+                                    formControlName="password"
+                                    [ngClass]="{'is-invalid': inviteForm.get('password')?.invalid && inviteForm.get('password')?.touched}">
+                                <label for="password">
+                                    <i class="bi bi-lock me-1"></i>Password
+                                </label>
+                                <div class="invalid-feedback"
+                                    *ngIf="inviteForm.get('password')?.invalid && inviteForm.get('password')?.touched">
+                                    Password must be at least 8 characters
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="confirmPassword"
+                                    placeholder="Confirm Password" formControlName="confirmPassword"
+                                    [ngClass]="{'is-invalid': (inviteForm.get('confirmPassword')?.invalid || inviteForm.errors?.['mismatch']) && inviteForm.get('confirmPassword')?.touched}">
+                                <label for="confirmPassword">
+                                    <i class="bi bi-lock-fill me-1"></i>Confirm Password
+                                </label>
+                                <div class="invalid-feedback" *ngIf="inviteForm.errors?.['mismatch']">
+                                    Passwords do not match
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Terms & Condition Checkbox -->
+                        <!-- NOTE: class mt-3s corrected to mt-3 for standard spacing -->
+                        <div class="form-check mt-3">
+                            <input class="form-check-input input-primary" type="checkbox" id="customCheckc1"
+                                formControlName="agreeToTerms"
+                                [ngClass]="{'is-invalid': inviteForm.get('agreeToTerms')?.invalid && inviteForm.get('agreeToTerms')?.touched}" />
+                            <label class="form-check-label" for="customCheckc1">
+                                <h5>
+                                    Agree with <span>Terms & Condition.</span>
+                                </h5>
+                            </label>
+                            <div class="invalid-feedback"
+                                *ngIf="inviteForm.get('agreeToTerms')?.invalid && inviteForm.get('agreeToTerms')?.touched">
+                                You must agree to the terms.
+                            </div>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-secondary"
+                                [disabled]="inviteForm.invalid || isLoading">
+                                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                {{ isLoading ? 'Confirming Registring...' : 'Confirm Registration' }}
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

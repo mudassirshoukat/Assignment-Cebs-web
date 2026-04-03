@@ -1,0 +1,128 @@
+<p-dialog
+  [(visible)]="visible"
+  (onHide)="closeDialog()"
+  [style]="{ width: '700px' }"
+  header="Create Job Title"
+  [modal]="true"
+>
+
+  <form [formGroup]="createForm" (ngSubmit)="submit()">
+
+    <!-- Job Title Name -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="jobTitleName"
+        formControlName="name"
+        placeholder="Job Title Name"
+        [ngClass]="{
+          'is-invalid':
+            f['name'].invalid && (f['name'].dirty || f['name'].touched)
+        }"
+      />
+      <label for="jobTitleName">Job Title Name</label>
+
+      <div class="invalid-feedback" *ngIf="
+        f['name'].invalid && (f['name'].dirty || f['name'].touched)
+      ">
+        <div *ngIf="f['name'].errors?.['required']">
+          Job title name is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Department -->
+    <div class="mb-3">
+      <label class="form-label">Department</label>
+      <select
+        class="form-select"
+        formControlName="departmentId"
+        [ngClass]="{
+          'is-invalid':
+            f['departmentId'].invalid &&
+            (f['departmentId'].dirty || f['departmentId'].touched)
+        }"
+      >
+        <option [ngValue]="null">Select Department</option>
+        <option *ngFor="let dept of departments" [ngValue]="dept.id">
+          {{ dept.name }}
+        </option>
+      </select>
+
+      <div class="invalid-feedback" *ngIf="
+        f['departmentId'].invalid &&
+        (f['departmentId'].dirty || f['departmentId'].touched)
+      ">
+        Department is required.
+      </div>
+    </div>
+
+    <!-- Common Designations (Optional) -->
+    <div class="mb-3">
+      <label class="form-label">Common Designations (Optional)</label>
+      <p-multiSelect
+        formControlName="commonDesignationIds"
+        [options]="designations"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select designations"
+        display="chip"
+        styleClass="w-100"
+      >
+      </p-multiSelect>
+    </div>
+
+    <!-- Description -->
+    <div class="form-floating mb-4">
+      <textarea
+        class="form-control"
+        id="jobTitleDescription"
+        formControlName="description"
+        placeholder="Job Title Description"
+        style="height: 160px; resize: vertical;"
+        [ngClass]="{
+          'is-invalid':
+            f['description'].invalid &&
+            (f['description'].dirty || f['description'].touched)
+        }"
+      ></textarea>
+
+      <label for="jobTitleDescription">Description</label>
+
+      <div class="invalid-feedback" *ngIf="
+        f['description'].invalid &&
+        (f['description'].dirty || f['description'].touched)
+      ">
+        <div *ngIf="f['description'].errors?.['required']">
+          Description is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Buttons -->
+    <div class="d-flex justify-content-end gap-2">
+      <button
+        type="button"
+        class="btn btn-light"
+        (click)="closeDialog()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-secondary"
+        [disabled]="createForm.invalid || isSubmitting()"
+      >
+        <span
+          *ngIf="isSubmitting()"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+        ></span>
+        {{ isSubmitting() ? 'Creating...' : 'Create Job Title' }}
+      </button>
+    </div>
+
+  </form>
+</p-dialog>

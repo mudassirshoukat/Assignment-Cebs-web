@@ -1,0 +1,350 @@
+<div class="container-fluid py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a routerLink="/admin">Admin</a></li>
+                    <li class="breadcrumb-item active">Designation Hierarchy</li>
+                </ol>
+            </nav>
+            <h2 class="fw-bold mb-2">Designation Hierarchy</h2>
+            <p class="text-muted">
+                Manage organizational authority levels and permissions. Designations define seniority and access across
+                all departments.
+            </p>
+        </div>
+        <div class="d-flex gap-2">
+            <p-button icon="pi pi-plus" label="Add New Designation" class="p-button-sm" [raised]="true"
+                (onClick)="openNew()"></p-button>
+
+            <p-menu #menu [model]="moreMenuItems" [popup]="true"></p-menu>
+            <button pButton icon="pi pi-ellipsis-v" class="p-button-text p-button-secondary"
+                (click)="menu.toggle($event)"></button>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <p-card styleClass="shadow-sm border-top border-top-3 border-top-primary">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted d-block small">Total Designations</span>
+                        <h2 class="fw-bold mb-0">{{ designationStats?.total || 0 }}</h2>
+                    </div>
+                    <i class="pi pi-sitemap text-primary" style="font-size: 2rem"></i>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">{{ designationStats?.active || 0 }} active</small>
+                </div>
+            </p-card>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <p-card styleClass="shadow-sm border-top border-top-3 border-top-success">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted d-block small">Total Employees</span>
+                        <h2 class="fw-bold mb-0">{{ designationStats?.totalEmployees || 0 }}</h2>
+                    </div>
+                    <i class="pi pi-users text-success" style="font-size: 2rem"></i>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">{{ designationStats?.avgEmployees || 0 }} avg per designation</small>
+                </div>
+            </p-card>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <p-card styleClass="shadow-sm border-top border-top-3 border-top-info">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted d-block small">Project Managers</span>
+                        <h2 class="fw-bold mb-0">{{ designationStats?.projectManagers || 0 }}</h2>
+                    </div>
+                    <i class="pi pi-briefcase text-info" style="font-size: 2rem"></i>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">Can manage projects</small>
+                </div>
+            </p-card>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <p-card styleClass="shadow-sm border-top border-top-3 border-top-warning">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="text-muted d-block small">Team Leads</span>
+                        <h2 class="fw-bold mb-0">{{ designationStats?.teamLeads || 0 }}</h2>
+                    </div>
+                    <i class="pi pi-star text-warning" style="font-size: 2rem"></i>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">Can lead teams</small>
+                </div>
+            </p-card>
+        </div>
+    </div>
+
+    <!-- Hierarchy Visualization -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0">Authority Hierarchy</h5>
+            <div class="d-flex gap-2">
+                <button pButton icon="pi pi-filter" label="Filter" class="p-button-outlined p-button-sm"
+                    (click)="toggleFilters()"></button>
+                <button pButton icon="pi pi-download" label="Export" class="p-button-outlined p-button-sm"></button>
+            </div>
+        </div>
+
+        <!-- Filters (Collapsible) -->
+        <div class="card-body border-bottom" *ngIf="showFilters">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold">Status</label>
+                    <p-selectButton [options]="statusOptions" [(ngModel)]="selectedStatus" optionLabel="label"
+                        optionValue="value" (onChange)="applyFilters()"></p-selectButton>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label small fw-bold">Search</label>
+                    <span class="p-input-icon-left w-100">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" placeholder="Search designations..." [(ngModel)]="searchTerm"
+                            (input)="applyFilters()" class="w-100" />
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hierarchy Visualization -->
+        <div class="card-body">
+            <div class="hierarchy-container">
+                <!-- Corporate Leadership Level -->
+                <div class="hierarchy-level">
+                    <h6 class="hierarchy-level-title text-muted mb-3">Corporate Leadership</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-4" *ngFor="let desig of filteredDesignations | filterByLevel:'executive'">
+                            <div class="hierarchy-card" [ngClass]="{'hierarchy-card-inactive': !desig.isActive}">
+                                <div class="hierarchy-card-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="fw-bold mb-1">{{ desig.name }}</h5>
+                                        <div class="small text-muted">Rank: {{ desig.rank }}</div>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span class="badge"
+                                            [ngClass]="{'bg-success': desig.isActive, 'bg-secondary': !desig.isActive}">
+                                            {{ desig.isActive ? 'Active' : 'Inactive' }}
+                                        </span>
+                                        <p-button icon="pi pi-ellipsis-v" class="p-button-text p-button-sm"
+                                            (click)="openContextMenu($event, desig)"></p-button>
+                                    </div>
+                                </div>
+
+                                <div class="hierarchy-card-body">
+                                    <div class="mb-3">
+                                        <div class="small text-muted">Employees</div>
+                                        <h4 class="fw-bold">{{ desig.employeeCount || 0 }}</h4>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="small text-muted mb-2">Key Permissions</div>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span *ngIf="desig.canManageProjects" class="badge bg-info">Projects</span>
+                                            <span *ngIf="desig.canManageEmployees" class="badge bg-danger">HR</span>
+                                            <span *ngIf="desig.canManageTeam" class="badge bg-success">Teams</span>
+                                            <span *ngIf="desig.canReviewReports" class="badge bg-warning">Reports</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="hierarchy-card-actions">
+                                        <button pButton icon="pi pi-eye" label="View Details"
+                                            class="p-button-outlined p-button-sm w-100"
+                                            (click)="viewDesignation(desig)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Middle Management Level -->
+                <div class="hierarchy-level mt-5">
+                    <h6 class="hierarchy-level-title text-muted mb-3">Middle Management</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-3" *ngFor="let desig of filteredDesignations | filterByLevel:'management'">
+                            <div class="hierarchy-card" [ngClass]="{'hierarchy-card-inactive': !desig.isActive}">
+                                <div class="hierarchy-card-header">
+                                    <h6 class="fw-bold mb-1">{{ desig.name }}</h6>
+                                    <div class="small text-muted">Rank: {{ desig.rank }}</div>
+                                </div>
+
+                                <div class="hierarchy-card-body">
+                                    <div class="mb-2">
+                                        <div class="small text-muted">Employees</div>
+                                        <h5 class="fw-bold">{{ desig.employeeCount || 0 }}</h5>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="small text-muted mb-1">Permissions</div>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <i *ngIf="desig.canBeProjectManager" class="pi pi-briefcase text-info"
+                                                pTooltip="Project Manager"></i>
+                                            <i *ngIf="desig.canBeTeamLead" class="pi pi-users text-success"
+                                                pTooltip="Team Lead"></i>
+                                            <i *ngIf="desig.canApproveTasks" class="pi pi-check-circle text-primary"
+                                                pTooltip="Approve Tasks"></i>
+                                            <i *ngIf="desig.canAssignTasks" class="pi pi-send text-warning"
+                                                pTooltip="Assign Tasks"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="hierarchy-card-actions">
+                                        <button pButton icon="pi pi-pencil" label="Edit"
+                                            class="p-button-outlined p-button-sm w-100"
+                                            (click)="editDesignation(desig)"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Contributors Level -->
+                <div class="hierarchy-level mt-5">
+                    <h6 class="hierarchy-level-title text-muted mb-3">Individual Contributors</h6>
+                    <div class="row g-3">
+                        <div class="col-lg-2" *ngFor="let desig of filteredDesignations | filterByLevel:'contributor'">
+                            <div class="hierarchy-card-sm" [ngClass]="{'hierarchy-card-inactive': !desig.isActive}">
+                                <div class="hierarchy-card-sm-header">
+                                    <h6 class="fw-bold mb-0">{{ desig.name }}</h6>
+                                    <small class="text-muted">Rank {{ desig.rank }}</small>
+                                </div>
+
+                                <div class="hierarchy-card-sm-body">
+                                    <div class="text-center mb-2">
+                                        <div class="fw-bold">{{ desig.employeeCount || 0 }}</div>
+                                        <div class="small text-muted">employees</div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <span *ngIf="desig.canAssignTasks"
+                                            class="badge bg-light text-dark">Assign</span>
+                                        <span *ngIf="desig.canApproveTasks"
+                                            class="badge bg-light text-dark">Approve</span>
+                                    </div>
+                                </div>
+
+                                <div class="hierarchy-card-sm-footer">
+                                    <div class="d-flex justify-content-between">
+                                        <button pButton icon="pi pi-eye" class="p-button-text p-button-sm"></button>
+                                        <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permission Matrix View -->
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="fw-bold mb-0">Permission Matrix</h5>
+            <p class="text-muted small mb-0">Compare designation permissions across hierarchy</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Designation</th>
+                            <th class="text-center">Rank</th>
+                            <th class="text-center">PM</th>
+                            <th class="text-center">TL</th>
+                            <th class="text-center">Approve</th>
+                            <th class="text-center">Assign</th>
+                            <th class="text-center">Manage Team</th>
+                            <th class="text-center">Manage Projects</th>
+                            <th class="text-center">Manage Employees</th>
+                            <th class="text-center">Review Reports</th>
+                            <th class="text-center">Employees</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let desig of sortedDesignations">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-2">
+                                        <span class="badge rounded-pill bg-light text-dark">{{ desig.rank }}</span>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">{{ desig.name }}</div>
+                                        <div class="small text-muted">{{ desig.description }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span class="fw-bold">{{ desig.rank }}</span>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canBeProjectManager" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canBeProjectManager" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canBeTeamLead" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canBeTeamLead" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canApproveTasks" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canApproveTasks" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canAssignTasks" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canAssignTasks" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canManageTeam" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canManageTeam" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canManageProjects" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canManageProjects" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canManageEmployees" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canManageEmployees" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <i *ngIf="desig.canReviewReports" class="pi pi-check text-success"></i>
+                                <i *ngIf="!desig.canReviewReports" class="pi pi-times text-muted"></i>
+                            </td>
+                            <td class="text-center">
+                                <span class="fw-bold">{{ desig.employeeCount || 0 }}</span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <button pButton icon="pi pi-eye" class="p-button-text p-button-sm"
+                                        (click)="viewDesignation(desig)"></button>
+                                    <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm"
+                                        (click)="editDesignation(desig)"></button>
+                                    <button pButton icon="pi pi-trash" class="p-button-text p-button-sm p-button-danger"
+                                        (click)="deleteDesignation(desig)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <app-designation-create-dialog [(visible)]="isCreateDialogOpen"
+        (designationCreated)="onDesignationCreated()"></app-designation-create-dialog>
+
+    <!-- Context Menu -->
+    <p-menu #contextMenu [model]="contextMenuItems" [popup]="true"></p-menu>
+</div>

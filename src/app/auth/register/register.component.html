@@ -1,0 +1,357 @@
+<!-- Updated HTML Template -->
+<div class="auth-main">
+  <div class="auth-wrapper v3 w-100" style="max-width: 800px;">
+    <div class="auth-form">
+      <div class="card mt-4 mt-md-5">
+        <div class="card-body">
+          <!-- Logo -->
+          <div class="text-center mb-4">
+            <a href="javascript:" class="logo-link">
+              <img src="assets/images/logo-brand.png" style="width: 300px;" alt="darkMode-logo" class="logo" />
+            </a>
+          </div>
+
+          <!-- Header -->
+          <div class="auth-header text-center mb-2">
+            <h2 class="text-gradient mb-3"><b>Register as Organization</b></h2>
+            <p class="text-muted fs-5">Complete the steps below to create your organization account</p>
+          </div>
+
+          <!-- PrimeNG Stepper -->
+          <p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="false" class="stepper-modern mb-5">
+          </p-steps>
+
+          <!-- Progress Bar -->
+          <!-- <div class="progress mb-5" style="height: 6px; border-radius: 3px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                 role="progressbar" 
+                 [style.width]="(activeIndex + 1) * 25 + '%'"
+                 aria-valuenow="(activeIndex + 1) * 25"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+            </div>
+          </div> -->
+          <div class="saprator my-3">
+          </div>
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="stepper-form">
+            <!-- Step 1: Organization Details -->
+            <div *ngIf="activeIndex === 0" class="step-content" @fadeSlideIn>
+              <h4 class="step-title mb-4 text-primary">
+                <i class="bi bi-building me-2 "></i>Organization Information
+              </h4>
+
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <!-- Helper text outside form-floating -->
+                    <div class="form-text mb-1">
+                      <i class="bi bi-building me-1"></i>Enter your organization's legal name
+                    </div>
+
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="orgName" placeholder="Apex Solutions Group"
+                        formControlName="name"
+                        [ngClass]="{'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}">
+                      <label for="orgName">Organization Name</label>
+                      <div class="invalid-feedback"
+                        *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+                        Please enter a valid organization name
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <!-- Helper text outside form-floating -->
+                    <div class="form-text mb-1">
+                      <i class="bi bi-link-45deg me-1"></i>This will be used in your profile URL
+                    </div>
+
+                    <div class="form-floating">
+                      <input type="text" class="form-control" id="orgSlug" placeholder="apex-solutions"
+                        formControlName="slug"
+                        [ngClass]="{'is-invalid': registerForm.get('slug')?.invalid && registerForm.get('slug')?.touched}">
+                      <label for="orgSlug">Organization Slug</label>
+                      <div class="invalid-feedback"
+                        *ngIf="registerForm.get('slug')?.invalid && registerForm.get('slug')?.touched">
+                        Please enter a valid slug
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row my-2">
+                <div class="col-12">
+                  <div class="form-floating">
+                    <select class="form-select" id="specialtyArea" formControlName="specialtyAreaId"
+                      [ngClass]="{'is-invalid': registerForm.get('specialtyAreaId')?.invalid && registerForm.get('specialtyAreaId')?.touched}">
+                      <option [ngValue]="null" disabled>Select your specialty area</option>
+                      <option *ngFor="let area of specialityAreas" [ngValue]="area.id">
+                        {{ area.name }}
+                      </option>
+                    </select>
+                    <label for="specialtyArea">
+                      <i class="bi bi-stars me-1"></i>Primary Specialty Area
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('specialtyAreaId')?.invalid && registerForm.get('specialtyAreaId')?.touched">
+                      Please select a specialty area
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end mt-3">
+                <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Address -->
+            <div *ngIf="activeIndex === 1" class="step-content" @fadeSlideIn>
+              <h4 class="step-title mb-4">
+                <i class="bi bi-geo-alt me-2"></i>Organization Location
+              </h4>
+
+              <div class="row g-4">
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="physicalAddress" placeholder="123 Main Street"
+                      formControlName="physicalAddress"
+                      [ngClass]="{'is-invalid': registerForm.get('physicalAddress')?.invalid && registerForm.get('physicalAddress')?.touched}">
+                    <label for="physicalAddress">
+                      <i class="bi bi-house-door me-1"></i>Street Address
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('physicalAddress')?.invalid && registerForm.get('physicalAddress')?.touched">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select class="form-select" id="country" formControlName="country" (change)="onCountryChange()"
+                      [ngClass]="{'is-invalid': registerForm.get('country')?.invalid && registerForm.get('country')?.touched}">
+                      <option [ngValue]="null" disabled>Select a country</option>
+                      <option *ngFor="let c of countries" [ngValue]="c.isoCode">
+                        {{ c.name }}
+                      </option>
+                    </select>
+                    <label for="country">
+                      <i class="bi bi-globe me-1"></i>Country
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('country')?.invalid && registerForm.get('country')?.touched">
+                      Please select a country
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select class="form-select" id="state" formControlName="state" (change)="onStateChange()"
+                      [disabled]="!states.length"
+                      [ngClass]="{'is-invalid': registerForm.get('state')?.invalid && registerForm.get('state')?.touched}">
+                      <option [ngValue]="null" disabled>Select a state/province</option>
+                      <option *ngFor="let s of states" [ngValue]="s.isoCode">
+                        {{ s.name }}
+                      </option>
+                    </select>
+                    <label for="state">
+                      <i class="bi bi-pin-map me-1"></i>State/Province
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('state')?.invalid && registerForm.get('state')?.touched">
+                      Please select a state
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select class="form-select" id="city" formControlName="city" [disabled]="!cities.length"
+                      [ngClass]="{'is-invalid': registerForm.get('city')?.invalid && registerForm.get('city')?.touched}">
+                      <option [ngValue]="null" disabled>Select a city</option>
+                      <option *ngFor="let c of cities" [ngValue]="c.name">
+                        {{ c.name }}
+                      </option>
+                    </select>
+                    <label for="city">
+                      <i class="bi bi-geo me-1"></i>City
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('city')?.invalid && registerForm.get('city')?.touched">
+                      Please select a city
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mt-3">
+                <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+                <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Admin Info -->
+            <div *ngIf="activeIndex === 2" class="step-content" @fadeSlideIn>
+              <h4 class="step-title mb-4">
+                <i class="bi bi-person-badge me-2"></i>Administrator Account
+              </h4>
+
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="firstName" placeholder="John"
+                      formControlName="firstName"
+                      [ngClass]="{'is-invalid': registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched}">
+                    <label for="firstName">
+                      <i class="bi bi-person me-1"></i>First Name
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+                      Please enter your first name
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="lastName" placeholder="Doe" formControlName="lastName"
+                      [ngClass]="{'is-invalid': registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched}">
+                    <label for="lastName">
+                      <i class="bi bi-person me-1"></i>Last Name
+                    </label>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+                      Please enter your last name
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com"
+                      formControlName="email"
+                      [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
+                    <label for="email">
+                      <i class="bi bi-envelope me-1"></i>Email Address
+                    </label>
+                    <div class="form-text">This will be your username for login</div>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+                      Please enter a valid email address
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="password" placeholder="Password"
+                      formControlName="password"
+                      [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
+                    <label for="password">
+                      <i class="bi bi-lock me-1"></i>Password
+                    </label>
+                    <div class="form-text">Minimum 8 characters with letters and numbers</div>
+                    <div class="invalid-feedback"
+                      *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+                      Password must be at least 8 characters
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password"
+                      formControlName="confirmPassword"
+                      [ngClass]="{'is-invalid': (registerForm.get('confirmPassword')?.invalid || registerForm.errors?.['mismatch']) && registerForm.get('confirmPassword')?.touched}">
+                    <label for="confirmPassword">
+                      <i class="bi bi-lock-fill me-1"></i>Confirm Password
+                    </label>
+                    <div class="invalid-feedback" *ngIf="registerForm.errors?.['mismatch']">
+                      Passwords do not match
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mt-3">
+                <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+                <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+              </div>
+            </div>
+
+            <!-- Step 4: Preview & Submit -->
+            <div *ngIf="activeIndex === 3" class="step-content" @fadeSlideIn>
+              <h4 class="step-title mb-4">
+                <i class="bi bi-check-circle me-2"></i>Review & Submit
+              </h4>
+
+              <div class="preview-section">
+                <h5 class="mb-4">Review Your Information</h5>
+
+                <div class="preview-item">
+                  <span class="preview-label">Organization Name:</span>
+                  <span class="preview-value">{{ registerForm.get('name')?.value || 'Not provided' }}</span>
+                </div>
+
+                <div class="preview-item">
+                  <span class="preview-label">Email Address:</span>
+                  <span class="preview-value">{{ registerForm.get('email')?.value || 'Not provided' }}</span>
+                </div>
+
+                <div class="preview-item">
+                  <span class="preview-label">Location:</span>
+                  <span class="preview-value">
+                    {{ registerForm.get('city')?.value || '' }}
+                    {{ registerForm.get('state')?.value ? ', ' + registerForm.get('state')?.value : '' }}
+                    {{ registerForm.get('country')?.value ? ', ' + registerForm.get('country')?.value : '' }}
+                  </span>
+                </div>
+
+                <div class="preview-item">
+                  <span class="preview-label">Admin Name:</span>
+                  <span class="preview-value">{{ registerForm.get('firstName')?.value }} {{
+                    registerForm.get('lastName')?.value }}</span>
+                </div>
+              </div>
+
+              <!-- Terms & Condition Checkbox -->
+              <!-- NOTE: class mt-3s corrected to mt-3 for standard spacing -->
+              <div class="form-check mt-3">
+                <input class="form-check-input input-primary" type="checkbox" id="customCheckc1"
+                  formControlName="agreeToTerms"
+                  [ngClass]="{'is-invalid': registerForm.get('agreeToTerms')?.invalid && registerForm.get('agreeToTerms')?.touched}" />
+                <label class="form-check-label" for="customCheckc1">
+                  <h5>
+                    Agree with <span>Terms & Condition.</span>
+                  </h5>
+                </label>
+                <div class="invalid-feedback"
+                  *ngIf="registerForm.get('agreeToTerms')?.invalid && registerForm.get('agreeToTerms')?.touched">
+                  You must agree to the terms.
+                </div>
+              </div>
+              <div class="d-flex justify-content-between mt-3">
+                <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid || isLoading">
+                  <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                  {{ isLoading ? 'Registering...' : 'Submit' }}
+                </button>
+              </div>
+
+            </div>
+          </form>
+
+          <div class="text-center mt-4 pt-4 border-top">
+            <p class="text-muted mb-0">
+              Already have an account?
+              <a [routerLink]="['/auth/login']" class="text-primary fw-semibold ms-1">Sign In</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

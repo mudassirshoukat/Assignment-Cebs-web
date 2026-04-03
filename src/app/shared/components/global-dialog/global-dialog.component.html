@@ -1,0 +1,36 @@
+<p-dialog
+  [(visible)]="dialog.visible"
+  [modal]="true"
+  [closable]="dialog.type !== 'session-expire'"
+  [dismissableMask]="dialog.type !== 'session-expire'"
+  [style]="{ width: dialog.type === 'confirmation' ? '350px' : '400px' }"
+  [header]="dialog.title"
+>
+  <div *ngIf="dialog.type === 'error'" class="dialog-error">
+    <p>{{ dialog.message }}</p>
+    <ul *ngIf="dialog.errors?.length">
+      <li *ngFor="let err of dialog.errors">{{ err }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="dialog.type === 'success'" class="dialog-success">
+    <p>{{ dialog.message }}</p>
+  </div>
+
+  <div *ngIf="dialog.type === 'warning'" class="dialog-warning">
+    <p>{{ dialog.message }}</p>
+  </div>
+
+  <div *ngIf="dialog.type === 'session-expire'" class="dialog-session-expire">
+    <p>{{ dialog.message }}</p>
+    <p-button label="Login" (click)="close()" class="p-button-warning"></p-button>
+  </div>
+
+  <div *ngIf="dialog.type === 'confirmation'" class="dialog-confirmation">
+    <p>{{ dialog.message }}</p>
+    <ng-template #footer>
+      <p-button label="No" icon="pi pi-times" (click)="close()" text></p-button>
+      <p-button label="Yes" icon="pi pi-check" (click)="confirm()" severity="danger"></p-button>
+    </ng-template>
+  </div>
+</p-dialog>

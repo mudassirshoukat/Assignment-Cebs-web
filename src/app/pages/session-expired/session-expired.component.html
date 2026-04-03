@@ -1,0 +1,39 @@
+<div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-md-auto col-lg-auto">
+        <div class="h-screen w-screen flex align-items-center justify-content-center p-4">
+            <div class="card shadow-2 border-round-2xl w-full" style="max-width: 400px; min-height: 500px;">
+                <div class="flex flex-column align-items-center justify-content-center h-full p-5 text-center">
+
+                    <div class="border-circle w-5rem h-5rem flex align-items-center justify-content-center mb-4"
+                        style="background: linear-gradient(135deg, rgba(156, 163, 175, 0.3) 0%, rgba(156, 163, 175, 0) 70%);">
+                        <div
+                            class="bg-gray-500 border-circle w-4rem h-4rem flex align-items-center justify-content-center">
+                            <i class="pi pi-clock text-white text-2xl"></i>
+                        </div>
+                    </div>
+
+                    <h2 class="text-900 font-bold text-3xl mb-3">Session Expired</h2>
+
+                    <p class="text-600 text-lg mb-4 line-height-3">
+                        Your session has expired due to inactivity. Please login again to continue.
+                    </p>
+
+                    <div class="my-4">
+                        <img src="assets/images/sessionexpired1.png" alt="Session expired"
+                            class="mb-8" width="80%" />
+                    </div>
+
+                    <p class="text-500 mb-5">
+                        For security reasons, your session has been automatically terminated.
+                    </p>
+
+                    <p-button label="Login Again" [routerLink]="['auth/login']" styleClass="p-button-help" (onClick)="signOut()"
+                        icon="pi pi-sign-in">
+                    </p-button>
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

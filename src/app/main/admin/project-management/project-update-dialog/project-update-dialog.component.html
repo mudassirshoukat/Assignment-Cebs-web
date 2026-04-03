@@ -1,0 +1,96 @@
+<p-dialog
+  [(visible)]="visible"
+  (onHide)="closeDialog()"
+ [style]="{ width: '800px' }"
+  header="Update Project"
+  [modal]="true"
+>
+
+  <form [formGroup]="updateForm" (ngSubmit)="submitUpdate()">
+
+    <!-- Project Name -->
+    <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="projectName"
+        formControlName="name"
+        placeholder="Project Name"
+        [ngClass]="{
+          'is-invalid':
+            updateForm.get('name')?.invalid &&
+            (updateForm.get('name')?.dirty || updateForm.get('name')?.touched)
+        }"
+      />
+      <label for="projectName">Project Name</label>
+
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          updateForm.get('name')?.invalid &&
+          (updateForm.get('name')?.dirty || updateForm.get('name')?.touched)
+        "
+      >
+        <div *ngIf="updateForm.get('name')?.errors?.['required']">
+          Project name is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Project Description -->
+    <div class="form-floating mb-4">
+      <textarea
+        class="form-control"
+        id="projectDescription"
+        formControlName="description"
+        placeholder="Project Description"
+        style="height: 200px; min-height: 100px"
+        [ngClass]="{
+          'is-invalid':
+            updateForm.get('description')?.invalid &&
+            (updateForm.get('description')?.dirty ||
+              updateForm.get('description')?.touched)
+        }"
+      ></textarea>
+      <label for="projectDescription">Project Description</label>
+
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          updateForm.get('description')?.invalid &&
+          (updateForm.get('description')?.dirty ||
+            updateForm.get('description')?.touched)
+        "
+      >
+        <div *ngIf="updateForm.get('description')?.errors?.['required']">
+          Project description is required.
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Buttons -->
+    <div class="d-flex justify-content-end gap-2">
+      <button
+        type="button"
+        class="btn btn-light"
+        (click)="closeDialog()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-secondary"
+        [disabled]="updateForm.invalid || isSubmitting()"
+      >
+        <span
+          *ngIf="isSubmitting()"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+        ></span>
+        {{ isSubmitting() ? 'Updating...' : 'Update Project' }}
+      </button>
+    </div>
+
+  </form>
+</p-dialog>

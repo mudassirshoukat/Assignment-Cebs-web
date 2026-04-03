@@ -1,0 +1,25 @@
+/* Container for tenant info */
+.tenant-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 220px;       /* Increase if needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tenant name styling */
+.tenant-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Country styling */
+.tenant-country {
+  font-size: 12px;
+  color: #6c757d;     /* Same as Bootstrap text-muted */
+  margin-top: -2px;
+}
