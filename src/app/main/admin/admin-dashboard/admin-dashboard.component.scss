@@ -1,0 +1,63 @@
+.customer-stack {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.customer-name {
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.customer-meta {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.orphan-icon {
+  margin-left: 0.5rem;
+  color: #d97706;
+  font-size: 0.9rem;
+}
+
+/* Highlight orphan rows */
+:host ::ng-deep .orphan-row {
+  background-color: #fff7ed;
+}
+
+/* Reuse your existing styles */
+.title-department-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.job-title-emphasis {
+  font-weight: 500;
+}
+
+.department-muted {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  font-style: italic;
+}
+
+.empty-department {
+  color: #9ca3af;
+  font-style: italic;
+}
+/* Vertical line accent for the Job/Dept column */
+.border-left-2 {
+  border-left: 3px solid #3B82F6 !important; /* Primary blue color */
+}
+
+/* Custom spacing for the stack */
+.tracking-wider {
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* Make the "Orphan" button pop but stay clean */
+:host ::ng-deep .p-button.p-button-sm {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+}

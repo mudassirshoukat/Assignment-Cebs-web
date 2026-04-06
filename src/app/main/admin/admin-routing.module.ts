@@ -1,13 +1,11 @@
+import { RouterModule, Routes } from "@angular/router";
+
+import { NgModule } from "@angular/core";
+import { AdminDashboardComponent } from "./admin-dashboard/admin-dashboard.component";
 
 const routes: Routes = [
   { path: '', component: AdminDashboardComponent },
   { path: 'dashboard', component: AdminDashboardComponent },
-
-
-  { path: 'departments', component: DepartmentManagementComponent },
-  { path: 'departments/:id/details', component: DepartmentDetailComponent },
-  { path: 'departments/:id/demo-details', component: DepartmentDetailDemoComponent },
-
 
 ];
 

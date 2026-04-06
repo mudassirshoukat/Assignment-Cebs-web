@@ -13,24 +13,22 @@ import { ReassignProjectTaskRequestModel } from "../../models/project-task/reass
 import { GetProjectTaskListQuery } from "../../models/project-task/project-task-list-query.model";
 import { ProjectTaskWithAssigneeResponseModel } from "../../models/project-task/project-task-with-assignee-response.model";
 
-
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class ProjectTaskService {
-
   pageNumber = signal(1);
   pageSize = signal(10);
   totalPages = signal(0);
   orderByLatest = signal(false);
   totalCount = signal(0);
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService) {}
 
   // =========================
   // Get paged list of tasks
   // =========================
-  getTasks(param?: GetProjectTaskListQuery)
-    : Observable<PagedResult<ProjectTaskResponseModel>> {
-
+  getTasks(
+    param?: GetProjectTaskListQuery,
+  ): Observable<PagedResult<ProjectTaskResponseModel>> {
     const query: GetProjectTaskListQuery = {
       teamMemberId: param?.teamMemberId,
       projectId: param?.projectId,
@@ -38,14 +36,13 @@ export class ProjectTaskService {
       Priority: param?.Priority,
       pageNumber: param?.pageNumber ?? this.pageNumber(),
       pageSize: param?.pageSize ?? this.pageSize(),
-      orderByLatest: param?.orderByLatest ?? this.orderByLatest()
+      orderByLatest: param?.orderByLatest ?? this.orderByLatest(),
     };
 
     return this.httpService
-      .get<PagedResult<ProjectTaskResponseModel>>(
-        API_ENDPOINTS.ProjectTasks.GetList,
-        query
-      )
+      .get<
+        PagedResult<ProjectTaskResponseModel>
+      >(API_ENDPOINTS.ProjectTasks.GetList, query)
       .pipe(
         tap((response) => {
           this.pageNumber.set(response.pageNumber);
@@ -53,17 +50,17 @@ export class ProjectTaskService {
           this.orderByLatest.set(response.orderByLatest);
           this.totalPages.set(response.totalPages);
           this.totalCount.set(response.totalCount);
-          console.log('Fetched project tasks:', response);
-        })
+          console.log("Fetched project tasks:", response);
+        }),
       );
   }
 
   // =========================
   // Get paged list of tasksWithAssigneeData
   // =========================
-    getTaskWithAssigneeList(param?: GetProjectTaskListQuery)
-    : Observable<PagedResult<ProjectTaskWithAssigneeResponseModel>> {
-
+  getTaskWithAssigneeList(
+    param?: GetProjectTaskListQuery,
+  ): Observable<PagedResult<ProjectTaskWithAssigneeResponseModel>> {
     const query: GetProjectTaskListQuery = {
       teamMemberId: param?.teamMemberId,
       projectId: param?.projectId,
@@ -71,14 +68,13 @@ export class ProjectTaskService {
       Priority: param?.Priority,
       pageNumber: param?.pageNumber ?? this.pageNumber(),
       pageSize: param?.pageSize ?? this.pageSize(),
-      orderByLatest: param?.orderByLatest ?? this.orderByLatest()
+      orderByLatest: param?.orderByLatest ?? this.orderByLatest(),
     };
 
     return this.httpService
-      .get<PagedResult<ProjectTaskWithAssigneeResponseModel>>(
-        API_ENDPOINTS.ProjectTasks.GetWithAssigneeList,
-        query
-      )
+      .get<
+        PagedResult<ProjectTaskWithAssigneeResponseModel>
+      >(API_ENDPOINTS.ProjectTasks.GetWithAssigneeList, query)
       .pipe(
         tap((response) => {
           this.pageNumber.set(response.pageNumber);
@@ -86,8 +82,8 @@ export class ProjectTaskService {
           this.orderByLatest.set(response.orderByLatest);
           this.totalPages.set(response.totalPages);
           this.totalCount.set(response.totalCount);
-          console.log('Fetched project tasks:', response);
-        })
+          console.log("Fetched project tasks:", response);
+        }),
       );
   }
   // =========================
@@ -96,12 +92,12 @@ export class ProjectTaskService {
   getById(id: string): Observable<ProjectTaskDetailResponseModel> {
     return this.httpService
       .get<ProjectTaskDetailResponseModel>(
-        API_ENDPOINTS.ProjectTasks.GetById(id)
+        API_ENDPOINTS.ProjectTasks.GetById(id),
       )
       .pipe(
         tap(() => {
           // optional side effects
-        })
+        }),
       );
   }
 
@@ -109,31 +105,36 @@ export class ProjectTaskService {
   // Create project task
   // =========================
   create(
-    request: CreateProjectTaskRequestModel
+    request: CreateProjectTaskRequestModel,
   ): Observable<ProjectTaskResponseModel> {
     return this.httpService
       .post<ProjectTaskResponseModel>(
         API_ENDPOINTS.ProjectTasks.Create,
-        request
+        request,
       )
       .pipe(
         tap(() => {
           // optional side effects
-        })
+        }),
       );
   }
 
-    update(request: UpdateProjectTaskRequestModel): Observable<ProjectTaskResponseModel> {
-      return this.httpService.put<ProjectTaskResponseModel>(API_ENDPOINTS.ProjectTasks.Update, request).pipe(
-        tap((response: ProjectTaskResponseModel) => {
-        })
-      );
-    }
-  
-    reassign(request: ReassignProjectTaskRequestModel): Observable<ProjectTaskResponseModel> {
-      return this.httpService.put<ProjectTaskResponseModel>(API_ENDPOINTS.ProjectTasks.Reassign, request).pipe(
-        tap((response: ProjectTaskResponseModel) => {
-        })
-      );
-    }
+  update(
+    request: UpdateProjectTaskRequestModel,
+  ): Observable<ProjectTaskResponseModel> {
+    return this.httpService
+      .put<ProjectTaskResponseModel>(API_ENDPOINTS.ProjectTasks.Update, request)
+      .pipe(tap((response: ProjectTaskResponseModel) => {}));
+  }
+
+  reassign(
+    request: ReassignProjectTaskRequestModel,
+  ): Observable<ProjectTaskResponseModel> {
+    return this.httpService
+      .put<ProjectTaskResponseModel>(
+        API_ENDPOINTS.ProjectTasks.Reassign,
+        request,
+      )
+      .pipe(tap((response: ProjectTaskResponseModel) => {}));
+  }
 }

@@ -27,16 +27,17 @@ export class MainLayoutComponent implements AfterViewInit ,OnInit{
   windowWidth!: number;
 
   constructor(private tenantService:TenantService){}
-    ngOnInit(): void {
+     ngOnInit(): void {
     
-    this.tenantService.GetCurrentTenant().subscribe({
-      next: (tenant) => console.log('Tenant data loaded for session'),
-      error: (err) => console.error('Failed to load tenant data', err)
-    });
+    // this.tenantService.GetCurrentTenant().subscribe({
+    //   next: (tenant) => console.log('Tenant data loaded for session'),
+    //   error: (err) => console.error('Failed to load tenant data', err)
+    // });
+    this.tenantService.setTenant();
     console.log( "tenant data from main-layout",this.tenantService.currentTenant$);
 
   }
-
+  
   ngAfterViewInit() {
     let current_url = this.location.path();
     const baseHref = this.locationStrategy.getBaseHref();

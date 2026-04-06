@@ -28,6 +28,25 @@ export class TenantService {
     );
   }
 
+  setTenant(): void {
+
+  const dummyTenant: TenantResponse = {
+    id: '1',
+    specialtyAreaId: '101',
+    name: 'TrueNorth Enterprises',
+    slug: 'truenorth-enterprises',
+    organizationId: 'org-001',
+    physicalAddress: '123 Main Street',
+    city: 'Pittsburg',
+    state: 'PA',
+    country: 'US',
+    createdOn: new Date(),
+    lastModifiedOn: new Date()
+  };
+
+  
+  this.currentTenantSubject.next(dummyTenant);
+}
 
   CreateTenant(request: CreateTenantRequestModel): Observable<TenantResponse> {
     return this.httpService.post<TenantResponse>(API_ENDPOINTS.Tenants.Create, request).pipe(

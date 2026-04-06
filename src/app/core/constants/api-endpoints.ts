@@ -48,11 +48,19 @@ export const API_ENDPOINTS = {
     // Employees
     // =========================
     Employees: {
-        GetList: `${BASE_URL}/Employees`,
-        GetWithTitlesList: `${BASE_URL}/Employees/with-titles`,
-        GetListAll: `${BASE_URL}/Employees/list-all`,
+        GetList: `${BASE_URL}/Customers`,
     },
 
+    // =========================
+    // Orders
+    // =========================
+    Orders: {
+        Create: `${BASE_URL}/Orders/Create`,
+        Update: `${BASE_URL}/Orders/Update`,
+        GetMyOrders: `${BASE_URL}/Orders/customer/my-orders`,
+        GetList: `${BASE_URL}/Orders`,
+        GetById: (id: string) => `${BASE_URL}/Orders/${id}`,
+    },
 
     // =========================
     // Projects

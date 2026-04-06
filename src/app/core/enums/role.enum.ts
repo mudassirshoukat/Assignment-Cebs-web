@@ -1,6 +1,6 @@
 
 export enum RoleNameEnum {
-  Employee = 'Employee', 
+  Employee = 'Customer', 
   Admin = 'Admin',
 }
 export enum RoleEnum {

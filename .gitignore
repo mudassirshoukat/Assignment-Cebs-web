@@ -1,1 +1,9 @@
 /dist
+node_modules
+.angular
+.idea
+.vscode
+*.log
+*.tmp
+*.bak
+.DS_Store   
