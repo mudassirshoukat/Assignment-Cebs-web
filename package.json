@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^19.2.15",
     "@angular/platform-browser-dynamic": "^19.2.15",
     "@angular/router": "^19.2.15",
+    "@microsoft/signalr": "^10.0.0",
     "@primeuix/themes": "^1.2.5",
     "@types/moment": "^2.11.29",
     "bootstrap": "^5.3.3",

@@ -6,6 +6,18 @@
   [style]="{ width: dialog.type === 'confirmation' ? '350px' : '400px' }"
   [header]="dialog.title"
 >
+
+<!--Custom / In-App Notification -->
+<div *ngIf="dialog.type === 'custom'" class="dialog-custom">
+  <div *ngIf="dialog.message; else listTemplate" [innerHTML]="dialog.message"></div>
+
+  <ng-template #listTemplate>
+    <ul *ngIf="dialog.errors?.length">
+      <li *ngFor="let line of dialog.errors">{{ line }}</li>
+    </ul>
+  </ng-template>
+</div>
+
   <div *ngIf="dialog.type === 'error'" class="dialog-error">
     <p>{{ dialog.message }}</p>
     <ul *ngIf="dialog.errors?.length">
