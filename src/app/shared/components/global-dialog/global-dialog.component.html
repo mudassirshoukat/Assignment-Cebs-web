@@ -1,6 +1,7 @@
 <p-dialog
   [(visible)]="dialog.visible"
-  [modal]="true"
+  [modal]="true",
+   [appendTo]="'body'"
   [closable]="dialog.type !== 'session-expire'"
   [dismissableMask]="dialog.type !== 'session-expire'"
   [style]="{ width: dialog.type === 'confirmation' ? '350px' : '400px' }"

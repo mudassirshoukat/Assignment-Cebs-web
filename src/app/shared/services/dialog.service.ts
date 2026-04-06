@@ -62,14 +62,15 @@ export class DialogService {
 
   /** Custom method for in-app notifications */
  showNotificationDialog(notification: AppNotification) {
+  console.log('Preparing to show notification dialog for:', notification);
   // Prepare HTML for the dialog
   const htmlMessage = `
     <h2>In-App Notification</h2>
     <p>Dear ${notification.customerName},</p>
     <p>You have a new in-app notification regarding your order <b>#${notification.orderPublicId}</b>.</p>
-    <p>Status: <b>${notification.status}</b></p>
-    <p>Order Action Time: <b>${new Date(notification.orderActionTime).toLocaleString()}</b></p>
-    <p>Notification Sent At: <b>${new Date(notification.notificationSentAt).toLocaleString()}</b></p>
+    <p>Status: <b>${notification.orderStatus}</b></p>
+    <p>Order Action Time: <b>${this.formatDate(notification.orderActionTime)}</b></p>
+    <p>Notification Sent At: <b>${this.formatDate(notification.notificationSentAt)}</b></p>
     <p>Time since order change: <b>${notification.durationSeconds.toFixed(1)} seconds</b></p>
     <p>Thank you!</p>
   `;
