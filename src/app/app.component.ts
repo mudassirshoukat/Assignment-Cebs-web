@@ -22,10 +22,18 @@ export class AppComponent {
 ) {}
 
  ngOnInit(): void {
-    const token = this.authService.getToken();
+    //Subscribe to the existing currentUser$ observable
+    // This fires on app load AND every time setToken() is called during login
+    this.authService.currentUser$.subscribe(user => {
+      const token = this.authService.getToken();
 
-    if (token) {
-      this.hubService.startConnection(token);
-    }
+      if (user && token) {
+        console.log("User detected, starting SignalR...");
+        this.hubService.startConnection(token);
+      } else {
+        console.log("No user, stopping SignalR...");
+        this.hubService.stopConnection(); 
+      }
+    });
   }
 }
